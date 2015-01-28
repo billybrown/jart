@@ -1,9 +1,23 @@
+#  M A K E T I M E C L U B        o
+#  N E W   O R L E A N S         /\
+#                               /::\
+#                 \ /          /::::\
+#                ,a_a         /\::::/\
+#               {/ ''\_      /\ \::/\ \
+#               {\ ,_oo)    /\ \ \/\ \ \
+#               {/  (_^____/  \ \ \ \ \ \
+#     .=.      {/ \___)))*)    \ \ \ \ \/
+#    (.=.`\   {/   /=;  ~/      \ \ \ \/
+#        \ `\{/(   \/\  /        \ \ \/
+#         \  `. `\  ) )           \ \/
+#     jgs  \    // /_/_            \/
+#           '==''---))))
+
 import RPi.GPIO as GPIO
 import time
 import pygame
 import sys, os
 import subprocess
-
 BTN_PIN = 12
 LED_PIN = 16
 
@@ -31,12 +45,9 @@ led_fade_dir = 1
 # button is pressed action
 def playAudio(channel) :
     global is_playing
-    print("button pressed.")
-
 
     # restart audio
     if (is_playing) :
-        print("sound is already playing")
 
         for volume in range(100,0,-1):
             time.sleep(0.01)
@@ -46,26 +57,20 @@ def playAudio(channel) :
         time.sleep(2)
         pygame.mixer.music.set_volume(1.0)
     else:
-        print("sound is starting.")
         pygame.mixer.music.play()
     
     is_playing = True
-    #time.sleep(1)
 
 # fire playback event when button is pressed
 GPIO.add_event_detect(BTN_PIN, GPIO.FALLING, callback=playAudio, bouncetime=2000)
 
-print("JART has begun!!! INITIATE JART.")
-
 try :
-#if (True):
     while True :
         if (is_playing):
             led_brightness = 100
 
             if (not pygame.mixer.music.get_busy()):
                 is_playing = False
-                print("sound is finished.")
 
         else:
             # when not playing, fade LED in and out
@@ -89,4 +94,3 @@ except :
 finally:
     pygame.mixer.quit()
     GPIO.cleanup()
-    print("done")
