@@ -43,6 +43,9 @@ led_fade_step = 1
 led_fade_dir = 1
 
 # button is pressed action
+# when button is pressed while the audio is already playing the volume fades out, 
+# the audio rewinds to the beginning and replays,
+# then the volume comes back in (it doesnt fade, it just comes back)
 def playAudio(channel) :
     global is_playing
 
@@ -64,6 +67,7 @@ def playAudio(channel) :
 # fire playback event when button is pressed
 GPIO.add_event_detect(BTN_PIN, GPIO.FALLING, callback=playAudio, bouncetime=2000)
 
+# this controls the blinking LED
 try :
     while True :
         if (is_playing):
